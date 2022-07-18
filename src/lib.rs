@@ -71,9 +71,9 @@ pub fn find(info: Formation) {
         .filter(|i| i.info_type == InfoType::Sides)
         .collect();
     let sodium = info.sodium;
-    (-10000..10000).into_par_iter().for_each(|x| {
-        for z in -10000..=10000 {
-            'next_attempt: for y in 10..=60 {
+    (info.x_min..info.x_max).into_par_iter().for_each(|x| {
+        for z in info.z_min..=info.z_max {
+            'next_attempt: for y in info.y_min..=info.y_max {
                 for info in &tops_and_bottoms {
                     if sodium {
                         if info.rotation

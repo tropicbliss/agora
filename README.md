@@ -22,7 +22,13 @@ The binary will be located in `target/release`.
 
 ```toml
 # config.toml
+
 sodium = false
+
+# optional fields
+x_bounds = [-10000, 10000]
+y_bounds = [10, 60]
+z_bounds = [-10000, 10000]
 
 [[rotation_info]]
 x = 1

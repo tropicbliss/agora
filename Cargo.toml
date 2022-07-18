@@ -3,6 +3,7 @@ name = "agora"
 version = "1.0.0"
 edition = "2021"
 description = "Minecraft coordinates bruteforcer"
+license = "MIT"
 
 [dependencies]
 anyhow = "1.0.58"

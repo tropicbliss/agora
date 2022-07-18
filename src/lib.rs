@@ -1,5 +1,5 @@
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
-use std::time::Instant;
+use std::{num::Wrapping, time::Instant};
 use utils::{Formation, InfoType};
 
 pub mod utils;
@@ -28,20 +28,16 @@ fn get_texture_top(x: i32, y: i32, z: i32) -> i32 {
 }
 
 fn stafford_mix_13(z: isize) -> isize {
-    const A: usize = 0xBF58476D1CE4E5B9;
-    const B: usize = 0x94D049BB133111EB;
-    let mut z = (z ^ (z as usize >> 30) as isize) * A as isize;
-    z = (z ^ (z as usize >> 27) as isize) * B as isize;
+    let mut z = (z ^ (z as usize >> 30) as isize) * Wrapping(0xBF58476D1CE4E5B9_usize).0 as isize;
+    z = (z ^ (z as usize >> 27) as isize) * Wrapping(0x94D049BB133111EB_usize).0 as isize;
     z ^ (z as usize >> 31) as isize
 }
 
 fn sodium_random(mut seed: isize) -> isize {
-    const A: usize = 0xff51afd7ed558ccd;
-    const B: usize = 0xc4ceb9fe1a85ec53;
     seed ^= (seed as usize >> 33) as isize;
-    seed *= A as isize;
+    seed *= Wrapping(0xff51afd7ed558ccd_usize).0 as isize;
     seed ^= (seed as usize >> 33) as isize;
-    seed *= B as isize;
+    seed *= Wrapping(0xc4ceb9fe1a85ec53_usize).0 as isize;
     seed ^= (seed as usize >> 33) as isize;
     seed += PHI as isize;
     let rand1 = stafford_mix_13(seed);

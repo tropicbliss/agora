@@ -1,0 +1,15 @@
+[package]
+name = "agora"
+version = "0.1.0"
+edition = "2021"
+description = "Minecraft coordinates bruteforcer"
+
+[dependencies]
+anyhow = "1.0.58"
+clap = { version = "3.2.12", features = ["derive"] }
+rayon = "1.5.3"
+serde = { version = "1.0.139", features = ["derive"] }
+toml = "0.5.9"
+
+[profile.dev]
+overflow-checks = false

@@ -11,7 +11,6 @@ fn main() -> Result<()> {
 
 #[derive(Parser, Debug)]
 #[clap(version, about)]
-
 struct Args {
     /// Path to seed config
     config: PathBuf,

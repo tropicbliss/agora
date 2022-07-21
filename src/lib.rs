@@ -4,8 +4,8 @@ use utils::{Formation, InfoType};
 
 pub mod utils;
 
-const MULTIPLIER: isize = 0x5DEECE66D;
-const MASK: isize = (1 << 48) - 1;
+const MULTIPLIER: i64 = 0x5DEECE66D;
+const MASK: i64 = (1 << 48) - 1;
 const PHI: usize = 0x9E3779B97F4A7C15;
 
 fn get_texture_side(x: i32, y: i32, z: i32) -> i32 {
@@ -14,8 +14,8 @@ fn get_texture_side(x: i32, y: i32, z: i32) -> i32 {
     ((seed * 0xBB20B4600A69 + 0x40942DE6BA) as u32 >> 16) as i32 & 0b1
 }
 
-fn get_coordinate_random(x: i32, y: i32, z: i32) -> isize {
-    let mut l = (x * 3129871) as isize ^ (z as isize * 116129781) ^ y as isize;
+fn get_coordinate_random(x: i32, y: i32, z: i32) -> i64 {
+    let mut l = (x * 3129871) as i64 ^ (z as i64 * 116129781) ^ y as i64;
     l = l * l * 42317861 + l * 11;
     l >> 16
 }
@@ -23,25 +23,25 @@ fn get_coordinate_random(x: i32, y: i32, z: i32) -> isize {
 fn get_texture_top(x: i32, y: i32, z: i32) -> i32 {
     let mut seed = get_coordinate_random(x, y, z);
     seed = (seed ^ MULTIPLIER) & MASK;
-    seed = ((seed * 0xBB20B4600A69 + 0x40942DE6BA) as usize >> 16) as isize;
+    seed = ((seed * 0xBB20B4600A69 + 0x40942DE6BA) as usize >> 16) as i64;
     (seed as i32).abs() & 0b11
 }
 
-fn stafford_mix_13(z: isize) -> isize {
-    let mut z = (z ^ (z as usize >> 30) as isize) * Wrapping(0xBF58476D1CE4E5B9_usize).0 as isize;
-    z = (z ^ (z as usize >> 27) as isize) * Wrapping(0x94D049BB133111EB_usize).0 as isize;
-    z ^ (z as usize >> 31) as isize
+fn stafford_mix_13(z: i64) -> i64 {
+    let mut z = (z ^ (z as usize >> 30) as i64) * Wrapping(0xBF58476D1CE4E5B9_usize).0 as i64;
+    z = (z ^ (z as usize >> 27) as i64) * Wrapping(0x94D049BB133111EB_usize).0 as i64;
+    z ^ (z as usize >> 31) as i64
 }
 
-fn sodium_random(mut seed: isize) -> isize {
-    seed ^= (seed as usize >> 33) as isize;
-    seed *= Wrapping(0xff51afd7ed558ccd_usize).0 as isize;
-    seed ^= (seed as usize >> 33) as isize;
-    seed *= Wrapping(0xc4ceb9fe1a85ec53_usize).0 as isize;
-    seed ^= (seed as usize >> 33) as isize;
-    seed += PHI as isize;
+fn sodium_random(mut seed: i64) -> i64 {
+    seed ^= (seed as usize >> 33) as i64;
+    seed *= Wrapping(0xff51afd7ed558ccd_usize).0 as i64;
+    seed ^= (seed as usize >> 33) as i64;
+    seed *= Wrapping(0xc4ceb9fe1a85ec53_usize).0 as i64;
+    seed ^= (seed as usize >> 33) as i64;
+    seed += PHI as i64;
     let rand1 = stafford_mix_13(seed);
-    seed += PHI as isize;
+    seed += PHI as i64;
     let rand2 = stafford_mix_13(seed);
     rand1 + rand2
 }
